@@ -162,7 +162,7 @@ async function seedDatabase(client) {
     queryRes = await client.query("SELECT * FROM potatoVegetairanRecipes");
     if (queryRes.rows.length !== 0) {
       console.log(
-        "Vegetarian recipes with potatoes:",
+        "\nVegetarian recipes with potatoes:",
         JSON.stringify(queryRes.rows, null, 2)
       );
     } else {
@@ -188,11 +188,38 @@ async function seedDatabase(client) {
     queryRes = await client.query("SELECT * FROM noBakingCakes");
     if (queryRes.rows.length !== 0) {
       console.log(
-        "No-baking cake recipes:",
+        "\nNo-baking cake recipes:",
         JSON.stringify(queryRes.rows, null, 2)
       );
     } else {
       console.log("There is no cake recipes without baking step in our DB");
+    }
+
+    // Create a view for all vegan and Japanese recipes
+    const CREATE_VEGAN_JAPANESE_VIEW = `
+      CREATE OR REPLACE VIEW veganJapanese AS
+      SELECT 
+        r.recipe_name,
+        c.category_name
+      FROM 
+        recipes r
+        JOIN recipecategories rc ON rc.recipe_id = r.recipe_id
+        JOIN categories c ON c.category_id = rc.category_id
+      WHERE 
+        c.category_name = 'Vegan' OR
+        c.category_name = 'Japanese';
+    `;
+
+    await client.query(CREATE_VEGAN_JAPANESE_VIEW);
+    // Query the view to verify it works
+    queryRes = await client.query("SELECT * FROM veganJapanese");
+    if (queryRes.rows.length !== 0) {
+      console.log(
+        "\nVegan or Japanese recipes:",
+        JSON.stringify(queryRes.rows, null, 2)
+      );
+    } else {
+      console.log("There is no vegan or Japanese cuisine in our DB");
     }
   } catch (error) {
     console.error("Error seeding database:", error);
