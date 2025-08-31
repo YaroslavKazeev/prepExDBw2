@@ -139,6 +139,34 @@ async function seedDatabase(client) {
       };
       await client.query(insertRecipeStepsIngredientQuery);
     }
+
+    // Create a view for all the vegetarian recipes with potatoes
+    const CREATE_POTATO_VEGETARIAN_VIEW = `
+      CREATE OR REPLACE VIEW potatoVegetairanRecipes AS
+      SELECT 
+        r.recipe_name,
+        rs.step_content
+      FROM 
+        recipes r
+        JOIN recipeSteps rs ON r.recipe_id = rs.recipe_id
+        JOIN recipeStepsIngredients rsi ON rs.recipe_id = rsi.recipe_id 
+          AND rs.step_number = rsi.step_number
+        JOIN ingredients i ON rsi.ingredient_id = i.ingredient_id
+      WHERE 
+        LOWER(i.ingredient_name) LIKE 'potato';
+    `;
+
+    await client.query(CREATE_POTATO_VEGETARIAN_VIEW);
+    // Query the view to verify it works
+    const result = await client.query("SELECT * FROM potatoVegetairanRecipes");
+    if (result.rows.length !== 0) {
+      console.log(
+        "Vegetarian recipes with potatoes:",
+        JSON.stringify(result.rows, null, 2)
+      );
+    } else {
+      console.log("There is no vegetarian recipes with potatos in our DB");
+    }
   } catch (error) {
     console.error("Error seeding database:", error);
   } finally {
