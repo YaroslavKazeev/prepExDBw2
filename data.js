@@ -1,19 +1,19 @@
 export const recipes = [
   {
     recipe_id: 1,
-    recipe_name: "No-Bake Cheesecake"
+    recipe_name: "No-Bake Cheesecake",
   },
   {
     recipe_id: 2,
-    recipe_name: "Roasted Brussels Sprouts"
+    recipe_name: "Roasted Brussels Sprouts",
   },
   {
     recipe_id: 3,
-    recipe_name: "Mac & Cheese"
+    recipe_name: "Mac & Cheese",
   },
   {
     recipe_id: 4,
-    recipe_name: "Tamagoyaki Japanese Omelette"
+    recipe_name: "Tamagoyaki Japanese Omelette",
   },
 ];
 
@@ -26,22 +26,22 @@ export const categories = [
   { category_id: 6, category_name: "Japanese" },
 ];
 
-export const recipeCategory = [
+export const recipeCategories = [
   // No-Bake Cheesecake categories (recipe_id: 1)
   { recipe_id: 1, category_id: 1 }, // Cake
   { recipe_id: 1, category_id: 2 }, // No-Bake
   { recipe_id: 1, category_id: 3 }, // Vegetarian
-  
+
   // Roasted Brussels Sprouts categories (recipe_id: 2)
   { recipe_id: 2, category_id: 4 }, // Vegan
   { recipe_id: 2, category_id: 5 }, // Gluten-Free
-  
+
   // Mac & Cheese categories (recipe_id: 3)
   { recipe_id: 3, category_id: 3 }, // Vegetarian
-  
+
   // Tamagoyaki Japanese Omelette categories (recipe_id: 4)
   { recipe_id: 4, category_id: 3 }, // Vegetarian
-  { recipe_id: 4, category_id: 6 }  // Japanese
+  { recipe_id: 4, category_id: 6 }, // Japanese
 ];
 
 export const recipeSteps = [
@@ -210,7 +210,7 @@ export const ingredients = [
   { ingredient_id: 18, ingredient_name: "Sugar" },
 ];
 
-export const recipeIngredients = [
+export const recipeStepIngredients = [
   // No-Bake Cheesecake steps (recipe_id: 1)
   // No-Bake Cheesecake steps (recipe_id: 1)
   {
