@@ -18,6 +18,7 @@ const config = {
 };
 
 const client = new Client(config);
+let queryRes;
 
 async function seedDatabase(client) {
   const CREATE_RECIPES_TABLE = `
@@ -158,14 +159,40 @@ async function seedDatabase(client) {
 
     await client.query(CREATE_POTATO_VEGETARIAN_VIEW);
     // Query the view to verify it works
-    const result = await client.query("SELECT * FROM potatoVegetairanRecipes");
-    if (result.rows.length !== 0) {
+    queryRes = await client.query("SELECT * FROM potatoVegetairanRecipes");
+    if (queryRes.rows.length !== 0) {
       console.log(
         "Vegetarian recipes with potatoes:",
-        JSON.stringify(result.rows, null, 2)
+        JSON.stringify(queryRes.rows, null, 2)
       );
     } else {
       console.log("There is no vegetarian recipes with potatos in our DB");
+    }
+
+    // Create a view for all the cakes that do not need baking
+    const CREATE_NO_BAKING_CAKES_VIEW = `
+      CREATE OR REPLACE VIEW noBakingCakes AS
+      SELECT 
+        r.recipe_name,
+        c.category_name
+      FROM 
+        recipes r
+        JOIN recipecategories rc ON rc.recipe_id = r.recipe_id
+        JOIN categories c ON c.category_id = rc.category_id
+      WHERE 
+        c.category_name = 'No-Bake';
+    `;
+
+    await client.query(CREATE_NO_BAKING_CAKES_VIEW);
+    // Query the view to verify it works
+    queryRes = await client.query("SELECT * FROM noBakingCakes");
+    if (queryRes.rows.length !== 0) {
+      console.log(
+        "No-baking cake recipes:",
+        JSON.stringify(queryRes.rows, null, 2)
+      );
+    } else {
+      console.log("There is no cake recipes without baking step in our DB");
     }
   } catch (error) {
     console.error("Error seeding database:", error);
