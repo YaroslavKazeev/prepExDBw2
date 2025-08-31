@@ -8,9 +8,19 @@ Last week you designed a database for storing food recipes. How can you improve 
 
 - What changes do you need to make to include [these new recipes](recipes.md) in your database?
 
+I created several additional tables because the data structure in this exercise is explicit and different from the data structure in the previous exercise.
+
 - Where can you add a primary key?
+
+PK was added to every table to identify each row of data in the table.
+
 - Which tables should be linked with a foreign key?
+
+Each table has at least one column as a foreign key, referencing another table. Without it, it is impossible to relate one table to another.
+
 - What type of relationships do you see between the tables?
+
+All relationships between tables are one-to-many. If you skip the intermediate tables, then all relationships between categories, recipes, and ingredients are many-to-many.
 
 - Can you make queries to get:
   - All the vegetarian recipes with potatoes
